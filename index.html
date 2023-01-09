@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MiniJinja Playground</title>
+</head>
+<body>
+    <div id="loading">
+        Loading..
+    </div>
+    <div class="wrapper" id="wrapper" style="display: none">
+        <div class="editor" id="editor">
+            <form>
+                <h1>MiniJinja Playground Demo</h1>
+                <p>Enter your template and variables below and click "Render" to see the result.</p>
+
+                <div id="render_area">
+                    <div>
+                        <label for="template">Template</label>
+                        <textarea id="template" name="template" rows="10" cols="80"></textarea>
+                    </div>
+                    <div>
+                        <label for="variables">Variables (JSON)</label>
+                        <textarea id="variables" name="variables" rows="10" cols="80"></textarea>
+                    </div>
+                    <div>
+                        <button type="button" id="render">Render</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="output" id="output">
+        </div>
+    </div>
+
+    <script src="pkg/minijinja_playground.js"></script>
+    <script>
+        wasm_bindgen("pkg/minijinja_playground_bg.wasm");
+    </script>
+</body>
+</html>
+
