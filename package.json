@@ -2,8 +2,8 @@
   "scripts": {
     "tailwind-dev": "tailwindcss -i web/css/style.css -o ./web/dist/css/style.css --watch",
     "wasmpack-dev": "wasm-pack build --target no-modules --dev --out-dir web/dist/js ----no-typescript --out-name playground",
-    "liveserver": "cd web && live-server --watch=dist/js/minijinja_playground_bg.wasm,index.html --no-browser --host=127.0.0.1 --port=8080",
-    "dev": "concurrently \"npm:wasmpack-dev\" \"npm:tailwind-dev\" \"npm:liveserver\""
+    "liveserver": "cd web && live-server --watch=dist/js/minijinja_playground_bg.wasm,index.html --no-browser --host=127.0.0.1 --port=8080 --no-css-inject",
+    "dev": "concurrently \"npm:liveserver\" \"cargo watch -i package.json -i README.md -i tailwind.config.js -i .gitignore -i rendered.html.jinja -i 'web/*' -s 'npm run wasmpack-dev'\" \"npm:tailwind-dev\""
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.3",

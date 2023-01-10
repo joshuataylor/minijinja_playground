@@ -1,0 +1,52 @@
+<pre>{{rendered}}</pre>
+
+{% if errors %}
+    <div class="errors-wrapper">
+        <h2>Errors</h2>
+        <div class="errors"></div>
+    </div>
+{% endif %}
+
+<div class="mt-2">
+    <h2 class="text-lg font-medium text-gray-900">Instructions</h2>
+    <div class="instructions-wrapper w-full	" id="instructions">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="w-2 text-left text-sm font-semibold text-gray-900 ">Line #</th>
+                    <th scope="col" class="w-3 text-left text-sm font-semibold text-gray-900 ">ID</th>
+                    <th scope="col" class="w-4 text-left text-sm font-semibold text-gray-900 ">Instruction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{instructions}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4">
+    <div class="mx-auto">
+        <div>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Stats</h3>
+            <dl class="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+
+                <div class="px-4 py-5 sm:p-6">
+                    <dt class="text-base font-normal text-gray-900">Fuel Cost</dt>
+                    <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+                        <div class="flex items-baseline text-2xl font-semibold text-indigo-600">
+                            {{ fuel_cost }}
+                        </div>
+                    </dd>
+                </div>
+
+                <div class="px-4 py-5 sm:p-6">
+                    <dt class="text-base font-normal text-gray-900">Rendering Time</dt>
+                    <dd class="mt-1 flex items-baseline justify-between md:block lg:flex">
+                        <div class="flex items-baseline text-2xl font-semibold text-indigo-600">{{ render_time }}</div>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>

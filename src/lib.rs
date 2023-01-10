@@ -4,7 +4,7 @@ use minijinja::value::Value;
 use minijinja::{render, Environment};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
-use web_sys::HtmlTextAreaElement;
+use web_sys::{console, HtmlTextAreaElement};
 use web_sys::{Document, Element, HtmlButtonElement, Window};
 
 #[wasm_bindgen(start)]
@@ -122,42 +122,23 @@ fn update_preview(template_element: &Element, template: &Element, variables: &El
     for (idx, instr) in compiled_instructions.iter().enumerate() {
         let line = compiled_template.instructions.get_line(idx);
         let line_info = if line == last_line {
-            format!("  [line {}]", line.unwrap())
+            format!("{}", line.unwrap())
         } else {
-            String::new()
+            "-".to_string()
         };
 
-        let instruction_info = format!("{idx:>05x} | {instr:?}",);
-        instructions_list.push_str(&format!("<li>{instruction_info}{line_info}</li>"));
+        let instruction_info = format!("{idx:>05x}");
+        let instruction_info2 = format!("{instr:?}");
+
+        instructions_list.push_str(&format!("<tr><td class='whitespace-nowrap'>{line_info}</td><td class='whitespace-nowrap'>{instruction_info}</td><td class='whitespace-nowrap'>{instruction_info2}</td></tr>"));
 
         last_line = line;
     }
 
     // fuel info
     let fuel_info = env.fuel().unwrap_or(0);
+    let mj_template = include_str!("../rendered.html.jinja");
 
-    let mj_template = "<div class='rendered' id='rendered'><pre>{{rendered}}</pre></div>
-    <div class='errors-wrapper'>
-        <h2>Errors</h2>
-        <div class='errors'>
-        </div>
-    </div>
-    <div class='stats'>
-        <h2>Instructions</h2>
-        <div class='instructions-wrapper' id='instructions'>
-            {{instructions}}
-        </div>
-    </div>
-    <div class='stats'>
-        <h2>Stats</h2>
-        <div class='stats-wrapper'>
-            <ul id='stats'>
-                <li id='fuel-cost'>Fuel cost: {{fuel_cost}}</li>
-                <li id='render-time'>Rendering time: {{render_time}}</li>
-            </ul>
-        </div>
-    </div>";
-
-    let mj_output = render!(mj_template, rendered => rendered, errors => "", instructions => instructions_list, fuel_cost => fuel_info.to_string(), render_time => format!("{diff}ms"));
-    template_element.set_inner_html(&mj_output);
+    let output = render!(mj_template, rendered => rendered, errors => "", instructions => instructions_list, fuel_cost => fuel_info.to_string(), render_time => format!("{diff}ms"));
+    template_element.set_inner_html(&output);
 }
