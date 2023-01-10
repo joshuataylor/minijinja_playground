@@ -53,6 +53,7 @@ Right now it's pretty basic!
 - [ ] Deploy automatically via CI, once the above is semi-stable.
 - [ ] Add integration tests.
 - [ ] Add ability for users to toggle MiniJinja feature flags.
+- [ ] Use web workers to parse MiniJinja templates, so the UI doesn't freeze.
 
 ## Architecture
 This is a Rust project, built using the following:
