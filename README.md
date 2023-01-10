@@ -39,20 +39,20 @@ Right now it's pretty basic!
 
 ## Roadmap
 ### Short term
-[] Add debug & production level builds, right now, it's fully `debug`.
-[] Add the ability to share a link via a URL.
-[] Validate JSON object for the template variables.
-[] Validate the template is valid MiniJinja, show errors in a nicer way.
-[] Add Monaco highlighting for the template & objects.
-[] Build a "main" branch version and versioned releases, so testing stable and earlier versions of MiniJinja is possible.
-[] Add WASM tests
-[] Move the MiniJinja template into a better spot
-[] Improve UX & Theme (I'm a developer, so less developer design :-))
+- [ ] Add debug & production level builds, right now, it's fully `debug`.
+- [ ] Add the ability to share a link via a URL.
+- [ ] Validate JSON object for the template variables.
+- [ ] Validate the template is valid MiniJinja, show errors in a nicer way.
+- [ ] Add Monaco highlighting for the template & objects.
+- [ ] Build a "main" branch version and versioned releases, so testing stable and earlier versions of MiniJinja is possible.
+- [ ] Add WASM tests
+- [ ] Move the MiniJinja template into a better spot
+- [ ] Improve UX & Theme (I'm a developer, so less developer design :-))
 
 ### Medium term
-[] Deploy automatically via CI, once the above is semi-stable.
-[] Add integration tests.
-[] Add ability for users to toggle MiniJinja feature flags.
+- [ ] Deploy automatically via CI, once the above is semi-stable.
+- [ ] Add integration tests.
+- [ ] Add ability for users to toggle MiniJinja feature flags.
 
 ## Architecture
 This is a Rust project, built using the following:
