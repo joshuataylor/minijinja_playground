@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="/fonts/inter.css">
     <link href="/dist/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
     <div id="loading">
         <h1 class="text-3xl font-bold">
             Loading..
         </h1>
     </div>
 
-    <div class="wrapper mx" id="wrapper" style="display: none">
+    <div class="wrapper" id="wrapper" style="display: none">
         <nav x-data="{ open: false }" class="bg-gray-800 ">
             <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div class="relative flex h-16 items-center justify-between">
@@ -42,13 +42,13 @@
                         <div class="">
                             <label for="template" class="text-lg font-medium text-gray-900">Template</label>
                             <div class="mt-1">
-                                <textarea id="template" name="template" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='Hello {{ title }}, you are {{ online }}'></textarea>
+                                <textarea id="template" name="template" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='Hello {{ title }}, you are {{ online }}'>hello {{ title }}, you are {{ online }}</textarea>
                             </div>
                         </div>
                         <div class="mt-2">
                             <label for="variables" class="text-lg font-medium text-gray-900">Variables (JSON)</label>
                             <div class="mt-2">
-                                <textarea id="variables" name="variables" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='{"title": "hello", "online": true}"'></textarea>
+                                <textarea id="variables" name="variables" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='{"title": "hello", "online": true}"'>{"title": "hello", "online": true}</textarea>
                             </div>
                         </div>
                         <div>
@@ -61,7 +61,6 @@
                     </form>
                 </div>
                 <div class="flex-1 w-1/2 ml-10">
-                    <h2 class="text-lg font-medium text-gray-900">Rendered Result</h2>
                     <div id="render-wrapper" class="container mx-auto"></div>
                 </div>
             </div>
