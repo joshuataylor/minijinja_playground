@@ -6,8 +6,8 @@ use minijinja::{render, Environment};
 use std::{fmt, panic};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
-use web_sys::HtmlButtonElement;
 use web_sys::HtmlTextAreaElement;
+use web_sys::{HtmlButtonElement};
 
 enum ParseErrorKind {
     Variable,
@@ -166,13 +166,11 @@ fn render_template(template_string: &str, variables_string: &str) -> Result<Stri
         let id = format!("{i:>05x}");
         let instruction_output = format!("{instruction:?}");
 
-        instructions_list.push_str(&format!("<tr><td class='whitespace-nowrap'>{line_info}</td><td class='whitespace-nowrap'>{id}</td><td class='whitespace-nowrap'>{instruction_output}</td></tr>"));
+        instructions_list.push_str(&format!("<tr><td class='whitespace-nowrap pl-4 pr-3 text-sm font-medium text-gray-900 py-2'>{line_info}</td><td class='whitespace-nowrap'>{id}</td><td class='whitespace-nowrap'>{instruction_output}</td></tr>"));
 
         last_line = instruction_line;
     }
-
     let fuel_info = env.fuel().unwrap_or(0);
-
     Ok(
         render!(MINIJINJA_TEMPLATE, rendered => rendered, errors => "", instructions => instructions_list, fuel_cost => fuel_info.to_string(), render_time => format!("{diff}ms")),
     )

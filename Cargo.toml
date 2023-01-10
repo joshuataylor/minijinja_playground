@@ -26,16 +26,16 @@ console_error_panic_hook = "0.1.7"
 #time = { version = "0.3.17", features = ["wasm-bindgen"], default-features = false }
 chrono = { version = "0.4.10", features = ["wasmbind"] }
 
-
-#[profile.dev]
-#codegen-units = 1 # better optimizations
-#opt-level = 3
-#debug = 1
-#split-debuginfo = 'unpacked'
+[profile.dev]
+debug = 1 # This speeds up compilation, at the cost of losing the ability get line numbers and debug info.
+opt-level = 3 # This is the same as a release build, but slows down compilation slightly.
 
 [profile.release]
 lto = true
 codegen-units = 1
 strip = "debuginfo"
-#opt-level = 3
+opt-level = 3
+
+# Speeds up package building by setting opt-level=3 for all dependencies.
+[profile.dev.package."*"]
 opt-level = 3

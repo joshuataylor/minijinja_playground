@@ -8,13 +8,7 @@
     <link href="/dist/css/style.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-    <div id="loading">
-        <h1 class="text-3xl font-bold">
-            Loading..
-        </h1>
-    </div>
-
-    <div class="wrapper" id="wrapper" style="display: none">
+    <div>
         <nav x-data="{ open: false }" class="bg-gray-800 ">
             <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div class="relative flex h-16 items-center justify-between">
@@ -36,36 +30,43 @@
         </nav>
 
         <div class="container mx-auto">
-            <div class="flex mt-4">
-                <div class="w-1/2 editor" id="editor">
-                    <form>
-                        <div class="">
-                            <label for="template" class="text-lg font-medium text-gray-900">Template</label>
-                            <div class="mt-1">
-                                <textarea id="template" name="template" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='Hello {{ title }}, you are {{ online }}'>hello {{ title }}, you are {{ online }}</textarea>
-                            </div>
-                        </div>
-                        <div class="mt-2">
-                            <label for="variables" class="text-lg font-medium text-gray-900">Variables (JSON)</label>
-                            <div class="mt-2">
-                                <textarea id="variables" name="variables" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='{"title": "hello", "online": true}"'>{"title": "hello", "online": true}</textarea>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="mt-2">
-                                <button id="render" type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                    Render
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="flex-1 w-1/2 ml-10">
-                    <div id="render-wrapper" class="container mx-auto"></div>
-                </div>
+            <div id="loading">
+                <h1 class="text-3xl font-bold">
+                    <noscript>The MiniJinja Playground application requires Javascript. We do not send anything serverside, all requests are performed by the browser.</noscript>
+                </h1>
             </div>
+            <div id="wrapper">
+                <div class="flex mt-4">
+                    <div class="w-1/2 editor" id="editor">
+                        <form>
+                            <div class="">
+                                <label for="template" class="text-lg font-medium text-gray-900">Template</label>
+                                <div class="mt-1">
+                                    <textarea id="template" name="template" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='Hello {{ title }}, you are {{ online }}'>hello {{ title }}, you are {{ online }}</textarea>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <label for="variables" class="text-lg font-medium text-gray-900">Variables (JSON)</label>
+                                <div class="mt-2">
+                                    <textarea id="variables" name="variables" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='{"title": "hello", "online": true}"'>{"title": "hello", "online": true}</textarea>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="mt-2">
+                                    <button id="render" type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        Render
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="flex-1 w-1/2 ml-10">
+                        <div id="render-wrapper" class="container mx-auto"></div>
+                    </div>
+                </div>
 
-            <div class="output" id="output">
+                <div class="output" id="output">
+                </div>
             </div>
         </div>
     </div>
