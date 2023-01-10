@@ -1,5 +1,7 @@
+use chrono::Utc;
+use minijinja::machinery::CompiledTemplate;
 use minijinja::value::Value;
-use minijinja::Environment;
+use minijinja::{render, Environment};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 use web_sys::HtmlTextAreaElement;
@@ -7,6 +9,8 @@ use web_sys::{Document, Element, HtmlButtonElement, Window};
 
 #[wasm_bindgen(start)]
 pub fn run() -> Result<(), JsValue> {
+    console_error_panic_hook::set_once();
+
     let window = web_sys::window().expect("should have a window in this context");
     let document = window.document().expect("window should have a document");
 
@@ -28,9 +32,9 @@ pub fn run() -> Result<(), JsValue> {
 }
 
 fn setup_minijinja_form(_window: &Window, document: &Document) -> Result<(), JsValue> {
-    let output_element = document
-        .get_element_by_id("output")
-        .expect("should have #current-time on the page");
+    let rendered_element = document
+        .get_element_by_id("render-wrapper")
+        .expect("should have #render-wrapper on the page");
 
     let template_element = document
         .get_element_by_id("template")
@@ -41,50 +45,8 @@ fn setup_minijinja_form(_window: &Window, document: &Document) -> Result<(), JsV
         .expect("should have #variables on the page");
 
     let update_preview_closure = Closure::<dyn Fn()>::new(move || {
-        update_preview(&output_element, &template_element, &variables_element)
+        update_preview(&rendered_element, &template_element, &variables_element)
     });
-
-    fn update_preview(output: &Element, template: &Element, variables: &Element) {
-        let template_textarea = template
-            .dyn_ref::<HtmlTextAreaElement>()
-            .expect("#template be an `HtmlTextAreaElement`");
-
-        let variables_textarea = variables
-            .dyn_ref::<HtmlTextAreaElement>()
-            .expect("#variables_textarea be an `HtmlTextAreaElement`");
-
-        let variables_value = variables_textarea.value();
-
-        // The variables here may or not be valid JSON, we don't care unless the user has input later.
-        // @todo only check when the user has input
-        // @todo check that the variables are valid JSON before this point?
-        let parsed_variables = serde_json_wasm::from_str(&variables_value);
-
-        if !variables_value.is_empty() && parsed_variables.is_err() {
-            output.set_inner_html("Variables is not a valid JSON object.");
-            return;
-        }
-
-        let ctx: Value = if variables_value.is_empty() {
-            serde_json_wasm::from_str("{}").unwrap()
-        } else {
-            parsed_variables.unwrap()
-        };
-
-        let templates_value = template_textarea.value();
-
-        // Here we define the environment each time.
-        // Might be better to define it once, but given it's quick to do this,
-        // and the heaviest part is the rendering, I'm not sure it's worth it.
-        let mut env = Environment::new();
-
-        env.add_template("playground", &templates_value).unwrap();
-
-        let template = env.get_template("playground").unwrap();
-        let rendered = template.render(ctx).unwrap();
-
-        output.set_inner_html(&rendered);
-    }
 
     document
         .get_element_by_id("render")
@@ -96,4 +58,106 @@ fn setup_minijinja_form(_window: &Window, document: &Document) -> Result<(), JsV
     update_preview_closure.forget();
 
     Ok(())
+}
+
+fn update_preview(template_element: &Element, template: &Element, variables: &Element) {
+    let template_textarea = template
+        .dyn_ref::<HtmlTextAreaElement>()
+        .expect("#template be an `HtmlTextAreaElement`");
+
+    let variables_textarea = variables
+        .dyn_ref::<HtmlTextAreaElement>()
+        .expect("#variables_textarea be an `HtmlTextAreaElement`");
+
+    let variables_value = variables_textarea.value();
+
+    // The variables here may or not be valid JSON, we don't care unless the user has input later.
+    // @todo only check when the user has input
+    // @todo check that the variables are valid JSON before this point?
+    let parsed_variables = serde_json_wasm::from_str(&variables_value);
+
+    if !variables_value.is_empty() && parsed_variables.is_err() {
+        template_element.set_inner_html("Variables is not a valid JSON object.");
+        return;
+    }
+
+    let ctx: Value = if variables_value.is_empty() {
+        serde_json_wasm::from_str("{}").unwrap()
+    } else {
+        parsed_variables.unwrap_throw()
+    };
+
+    let templates_value = template_textarea.value();
+
+    // Here we define the environment each time.
+    // Might be better to define it once, but given it's quick to do this,
+    // and the heaviest part is the rendering, I'm not sure it's worth it.
+    let mut env = Environment::new();
+    env.set_debug(true);
+
+    // Later we'll support multiple templates, so let's just use this now, instead
+    // of direct rendering via the `render!` macro
+    env.add_template("playground", &templates_value)
+        .unwrap_throw();
+
+    let template = env.get_template("playground").unwrap_throw();
+
+    // @todo use timestamp_nanos later
+    let start: i64 = Utc::now().timestamp_micros();
+    let rendered = template.render(ctx).unwrap_throw();
+    let diff = Utc::now().timestamp_micros() - start;
+
+    // @#todo: I will fix this double compile later. Forgive me for my sins.
+    let compiled =
+        CompiledTemplate::from_name_and_source("playground", &templates_value).unwrap_throw();
+    let compiled_instructions = minijinja::machinery::instructions_list(compiled.instructions);
+
+    let compiled_template =
+        CompiledTemplate::from_name_and_source("playground", &templates_value).unwrap_throw();
+
+    // List containing HTML elements of instructions
+    let mut instructions_list: String = String::new();
+
+    let mut last_line: Option<usize> = None;
+    for (idx, instr) in compiled_instructions.iter().enumerate() {
+        let line = compiled_template.instructions.get_line(idx);
+        let line_info = if line == last_line {
+            format!("  [line {}]", line.unwrap())
+        } else {
+            String::new()
+        };
+
+        let instruction_info = format!("{idx:>05x} | {instr:?}",);
+        instructions_list.push_str(&format!("<li>{instruction_info}{line_info}</li>"));
+
+        last_line = line;
+    }
+
+    // fuel info
+    let fuel_info = env.fuel().unwrap_or(0);
+
+    let mj_template = "<div class='rendered' id='rendered'><pre>{{rendered}}</pre></div>
+    <div class='errors-wrapper'>
+        <h2>Errors</h2>
+        <div class='errors'>
+        </div>
+    </div>
+    <div class='stats'>
+        <h2>Instructions</h2>
+        <div class='instructions-wrapper' id='instructions'>
+            {{instructions}}
+        </div>
+    </div>
+    <div class='stats'>
+        <h2>Stats</h2>
+        <div class='stats-wrapper'>
+            <ul id='stats'>
+                <li id='fuel-cost'>Fuel cost: {{fuel_cost}}</li>
+                <li id='render-time'>Rendering time: {{render_time}}</li>
+            </ul>
+        </div>
+    </div>";
+
+    let mj_output = render!(mj_template, rendered => rendered, errors => "", instructions => instructions_list, fuel_cost => fuel_info.to_string(), render_time => format!("{diff}ms"));
+    template_element.set_inner_html(&mj_output);
 }

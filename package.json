@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "tailwind-dev": "tailwindcss -i web/css/style.css -o ./web/dist/css/style.css --watch",
+    "wasmpack-dev": "wasm-pack build --target no-modules --dev --out-dir web/dist/js ----no-typescript --out-name playground",
+    "liveserver": "cd web && live-server --watch=dist/js/minijinja_playground_bg.wasm,index.html --no-browser --host=127.0.0.1 --port=8080",
+    "dev": "concurrently \"npm:wasmpack-dev\" \"npm:tailwind-dev\" \"npm:liveserver\""
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "tailwindcss": "^3.2.4"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "concurrently": "^7.6.0"
+  }
+}
