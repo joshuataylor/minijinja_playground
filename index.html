@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MiniJinja Playground</title>
-    <link rel="stylesheet" href="/fonts/inter.css">
-    <link href="/dist/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/tailwind.css"/>
+    <link data-trunk rel="css" href="web/fonts/inter.css"/>
+    <link data-trunk rel="copy-file" href="web/fonts/Inter-italic.var.woff2"/>
+    <link data-trunk rel="copy-file" href="web/fonts/Inter-roman.var.woff2"/>
 </head>
 <body class="bg-gray-100">
     <div>
@@ -70,12 +72,6 @@
             </div>
         </div>
     </div>
-
-    <script src="/dist/js/playground.js"></script>
-    <script>
-        wasm_bindgen("/dist/js/playground_bg.wasm");
-    </script>
-
 </body>
 </html>
 

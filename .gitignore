@@ -1,4 +1,4 @@
 /target
 node_modules
-web/dist
 /.idea
+/dist

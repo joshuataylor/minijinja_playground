@@ -6,26 +6,11 @@ This uses the magic of [WebAssembly](https://webassembly.org/) to run MiniJinja 
 
 ## Building
 ### Requirements
-1. [wasm-pack](https://github.com/rustwasm/wasm-pack) installed to path `cargo install wasm-pack`
+1. [trunk](https://github.com/thedodd/trunk) (`cargo install wasm-pack`)
 2. NodeJS with npm (Tested with NodeJS 18.13.0 LTS and 19.4.0)
 
-### Installing
-1. Install the dependencies using npm:
-```sh
-npm install
-```
-
-### Running
-2. To run the dev server:
-```sh
-npm run liveserver
-```
-
-This will start listening for changes, then on change will run:
-- `wasm-pack` (for building WebAssembly)
-- `tailwind` (for CSS)
-
-It also runs `live-server`, which listens on `127.0.0.1` on port `8080`.
+### Developing
+1. Running `trunk serve` will build and package wasm, and runs on `127.0.0.1` on port `8080`.
 
 You should then be able to access the local build on http://127.0.0.1:8080 .
 
