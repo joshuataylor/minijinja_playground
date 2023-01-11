@@ -1,77 +1,12 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
     <title>MiniJinja Playground</title>
     <link rel="stylesheet" href="/tailwind.css"/>
-    <link data-trunk rel="css" href="web/fonts/inter.css"/>
-    <link data-trunk rel="copy-file" href="web/fonts/Inter-italic.var.woff2"/>
-    <link data-trunk rel="copy-file" href="web/fonts/Inter-roman.var.woff2"/>
 </head>
+
 <body class="bg-gray-100">
-    <div>
-        <nav x-data="{ open: false }" class="bg-gray-800 ">
-            <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                <div class="relative flex h-16 items-center justify-between">
-                    <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div class="flex flex-shrink-0 items-center">
-                        </div>
-                        <div class="hidden sm:ml-6 sm:block">
-                            <div class="flex space-x-4">
-                                <a href="https://minijinja.jdns.me/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Debug Playground</a>
-                                <a href="https://minijinja.jdns.me/debug" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Production Playground</a>
-                                <a href="https://github.com/joshuataylor/minijinja-playground" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">MiniJinja Playground GitHub</a>
-                                <a href="https://github.com/mitsuhiko/minijinja" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">MiniJinja GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </nav>
-
-        <div class="container mx-auto">
-            <div id="loading">
-                <h1 class="text-3xl font-bold">
-                    <noscript>The MiniJinja Playground application requires Javascript. We do not send anything serverside, all requests are performed by the browser.</noscript>
-                </h1>
-            </div>
-            <div id="wrapper">
-                <div class="flex mt-4">
-                    <div class="w-1/2 editor" id="editor">
-                        <form>
-                            <div class="">
-                                <label for="template" class="text-lg font-medium text-gray-900">Template</label>
-                                <div class="mt-1">
-                                    <textarea id="template" name="template" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='Hello {{ title }}, you are {{ online }}'>hello {{ title }}, you are {{ online }}</textarea>
-                                </div>
-                            </div>
-                            <div class="mt-2">
-                                <label for="variables" class="text-lg font-medium text-gray-900">Variables (JSON)</label>
-                                <div class="mt-2">
-                                    <textarea id="variables" name="variables" rows="10" cols="80" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder='{"title": "hello", "online": true}"'>{"title": "hello", "online": true}</textarea>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="mt-2">
-                                    <button id="render" type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                        Render
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="flex-1 w-1/2 ml-10">
-                        <div id="render-wrapper" class="container mx-auto"></div>
-                    </div>
-                </div>
-
-                <div class="output" id="output">
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
-

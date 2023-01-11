@@ -4,9 +4,6 @@ version = "0.1.0"
 authors = ["Josh Taylor"]
 edition = "2021"
 
-[lib]
-crate-type = ["cdylib"]
-
 [dependencies]
 wasm-bindgen = "0.2.83"
 js-sys = "0.3.60"
@@ -21,14 +18,16 @@ web-sys = { version = "0.3.60", features = [
 minijinja = { path = "../minijinja/minijinja", features = ["speedups", "preserve_order", "json", "macros", "debug", "internal_debug", "fuel", "unstable_machinery", "deserialization"] }
 serde = { version = "1.0", features = ["derive"] }
 serde-json-wasm = "0.5.0"
-console_error_panic_hook = "0.1.7"
-
-#time = { version = "0.3.17", features = ["wasm-bindgen"], default-features = false }
+monaco = { path = "../rust-monaco", features = ["yew-components"] }
+yew = { version = "0.20", features = ["csr"] }
 chrono = { version = "0.4.10", features = ["wasmbind"] }
+yew-router = "0.17"
+log = "0.4.6"
+wasm-log = "0.3.1"
 
 [profile.dev]
-debug = 1 # This speeds up compilation, at the cost of losing the ability get line numbers and debug info.
-opt-level = 3 # This is the same as a release build, but slows down compilation slightly.
+#debug = 1 # This speeds up compilation, at the cost of losing the ability get line numbers and debug info.
+#opt-level = 3 # This is the same as a release build, but slows down compilation slightly.
 
 [profile.release]
 lto = true
@@ -39,3 +38,4 @@ opt-level = 3
 # Speeds up package building by setting opt-level=3 for all dependencies.
 [profile.dev.package."*"]
 opt-level = 3
+debug = 1 # This speeds up compilation, at the cost of losing the ability get line numbers and debug info.
